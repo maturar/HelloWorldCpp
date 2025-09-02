@@ -1,0 +1,5 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}/cpp-hello-world",
+    "cmake.buildDirectory": "${workspaceFolder}/cpp-hello-world/build",
+    "cmake.generator": "Unix Makefiles"
+}
