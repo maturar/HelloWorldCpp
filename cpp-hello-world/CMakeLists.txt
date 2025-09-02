@@ -5,3 +5,5 @@ project(cpp_hello_world)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(cpp_hello_world src/main.cpp)
+
+target_link_libraries(cpp_hello_world pthread)
