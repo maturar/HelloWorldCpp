@@ -1,0 +1,17 @@
+#include<iostream>
+#include<string>
+#include<vector>
+
+int main() {
+    constexpr std::string_view welcome_text{"Hello, World!"};
+    std::cout << welcome_text << std::endl;
+
+    const std::string addional_text{"Hello, World, again!"};
+    for(const auto& c : addional_text) { std::cout << c ; }
+    std::cout << std::endl;
+
+    const std::vector<std::string> messages{"Hello", "World", "from", "C++20!"};
+    for(const auto& msg : messages) { std::cout << msg << " "; }
+    std::cout << std::endl;
+    return 0;
+}

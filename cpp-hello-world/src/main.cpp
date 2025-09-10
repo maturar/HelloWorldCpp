@@ -1,15 +1,44 @@
-// A C++ program to demonstrate the use of constexpr 
-#include<iostream>  
+#include <iostream>
+#include <string_view>
+#include <vector>
+#include <algorithm>
 
-constexpr long int fib(int n) 
-{ 
-    return (n <= 1) ? n : fib(n-1) + fib(n-2); 
-} 
+const std::vector<int8_t> ages{25, 30, 35, 40};
+const std::vector<int8_t> no_ages{};
 
-int main () 
-{ 
-    // value of res is computed at compile time. 
-    constexpr long int res = fib(30);
-    std::cout << res; 
-    return 0; 
+auto find_max_age(const std::vector<int8_t>& vec) {
+    return std::max_element(vec.begin(), vec.end());
+}
+
+// This is unsafe vesion, just for comparison for loop vs std::max_element
+// This function assumes the vector is non-empty
+int8_t find_max_age_old_version() {
+    int8_t max_age = ages[0];
+    for(const auto& age : ages) {
+        if(age > max_age) {
+            max_age = age;
+        }
+    }
+    return max_age;
+}
+
+void print_ages(const std::vector<int8_t>& vec) {
+    for(const auto& age : vec) {
+        std::cout << static_cast<int>(age) << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    constexpr auto& ages_vec = no_ages; // change to ages to see max age
+    std::cout << "Ages: ";
+
+    print_ages(ages_vec);
+    auto max_age_it = find_max_age(ages_vec);
+    if (max_age_it == std::end(ages_vec)) {
+        std::cout << "Max age is the last element." << std::endl;
+    } else {
+        std::cout << "Max age is: " << static_cast<int>(*max_age_it) << std::endl;
+    }
+    return 0;
 }
