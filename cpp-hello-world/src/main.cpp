@@ -2,6 +2,7 @@
 #include <string_view>
 #include <vector>
 #include <algorithm>
+#include <gtest/gtest.h>
 
 const std::vector<int8_t> ages{25, 30, 35, 40};
 const std::vector<int8_t> no_ages{};
@@ -41,4 +42,31 @@ int main() {
         std::cout << "Max age is: " << static_cast<int>(*max_age_it) << std::endl;
     }
     return 0;
+}
+
+TEST(FindMaxAgeTest, NonEmptyVector) {
+    std::vector<int8_t> ages{25, 30, 35, 40};
+    auto it = find_max_age(ages);
+    ASSERT_NE(it, ages.end());
+    EXPECT_EQ(*it, 40);
+}
+
+TEST(FindMaxAgeTest, EmptyVector) {
+    std::vector<int8_t> no_ages{};
+    auto it = find_max_age(no_ages);
+    EXPECT_EQ(it, no_ages.end());
+}
+
+TEST(FindMaxAgeTest, SingleElementVector) {
+    std::vector<int8_t> ages{42};
+    auto it = find_max_age(ages);
+    ASSERT_NE(it, ages.end());
+    EXPECT_EQ(*it, 42);
+}
+
+TEST(FindMaxAgeTest, AllElementsEqual) {
+    std::vector<int8_t> ages{10, 10, 10};
+    auto it = find_max_age(ages);
+    ASSERT_NE(it, ages.end());
+    EXPECT_EQ(*it, 10);
 }

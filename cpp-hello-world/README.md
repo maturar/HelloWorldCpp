@@ -47,3 +47,11 @@ You should see the output:
 ```
 Hello, World!
 ```
+
+## Runing the unit tests
+
+After building the project, you can run unit tests with the command:
+
+'''
+ctest
+'''
