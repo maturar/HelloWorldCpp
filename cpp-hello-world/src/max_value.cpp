@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <gtest/gtest.h>
+#include "max_value.h"
 
 const std::vector<int8_t> ages{25, 30, 35, 40};
 const std::vector<int8_t> no_ages{};
@@ -30,7 +31,7 @@ void print_ages(const std::vector<int8_t>& vec) {
     std::cout << std::endl;
 }
 
-int main() {
+void MaxValue::doExample() const {
     constexpr auto& ages_vec = no_ages; // change to ages to see max age
     std::cout << "Ages: ";
 
@@ -42,7 +43,6 @@ int main() {
     } else {
         std::cout << "Max age is: " << static_cast<int>(*max_age_it) << std::endl;
     }
-    return 0;
 }
 
 TEST(FindMaxAgeTest, NonEmptyVector) {

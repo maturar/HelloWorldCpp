@@ -2,14 +2,14 @@
 #include <gtest/gtest.h>
 #include "lambdaFinder.h"
 
-constexpr auto LambdaFinder::found(const std::array<std::string_view, 4>& arr) {
+constexpr auto LambdaFinder::found(const std::array<std::string_view, 4>& arr) const {
     return std::find_if(arr.begin(), arr.end(),
                         [](std::string_view str) {
                             return str.find("nut") != std::string_view::npos;
                         });
 }
 
-void LambdaFinder::doExample() {
+void LambdaFinder::doExample() const {
     constexpr std::array<std::string_view, 4> arr{ "apple", "banana", "walnut", "lemon" };
     auto is_nut_it{ found(arr)};
     if (is_nut_it != arr.end()) {
