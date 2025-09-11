@@ -4,7 +4,7 @@ project(cpp_hello_world)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(cpp_hello_world src/main.cpp)
+add_executable(cpp_hello_world src/lambdaFinder.cpp src/main.cpp) # Added found.cpp
 
 target_link_libraries(cpp_hello_world PRIVATE pthread gtest gtest_main)
 
