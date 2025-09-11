@@ -1,72 +1,54 @@
+#include <algorithm>
+#include <array>
 #include <iostream>
 #include <string_view>
-#include <vector>
-#include <algorithm>
 #include <gtest/gtest.h>
 
-const std::vector<int8_t> ages{25, 30, 35, 40};
-const std::vector<int8_t> no_ages{};
-
-auto find_max_age(const std::vector<int8_t>& vec) {
-    return std::max_element(vec.begin(), vec.end());
-}
-
-// This is unsafe vesion, just for comparison for loop vs std::max_element
-// This function assumes the vector is non-empty
-int8_t find_max_age_old_version() {
-    int8_t max_age = ages[0];
-    for(const auto& age : ages) {
-        if(age > max_age) {
-            max_age = age;
-        }
-    }
-    return max_age;
-}
-
-void print_ages(const std::vector<int8_t>& vec) {
-    for(const auto& age : vec) {
-        std::cout << static_cast<int>(age) << " ";
-    }
-    std::cout << std::endl;
+// Function to find the first string containing "nut"
+// This function works with lambdas and is constexpr.
+constexpr auto found(const std::array<std::string_view, 4>& arr) {
+    return std::find_if(arr.begin(), arr.end(),
+                        [](std::string_view str) {
+                            return str.find("nut") != std::string_view::npos;
+                        });
 }
 
 int main() {
-    constexpr auto& ages_vec = no_ages; // change to ages to see max age
-    std::cout << "Ages: ";
-
-    print_ages(ages_vec);
-    auto max_age_it = find_max_age(ages_vec);
-    if (max_age_it == std::end(ages_vec)) {
-        std::cout << "Max age is the last element." << std::endl;
+    constexpr std::array<std::string_view, 4> arr{ "apple", "banana", "walnut", "lemon" };
+    auto is_nut_it{ found(arr)};
+    if (is_nut_it != arr.end()) {
+        std::cout << "Found: " << *is_nut_it << std::endl;
     } else {
-        std::cout << "Max age is: " << static_cast<int>(*max_age_it) << std::endl;
+        std::cout << "No nut found." << std::endl;
     }
     return 0;
 }
 
-TEST(FindMaxAgeTest, NonEmptyVector) {
-    std::vector<int8_t> ages{25, 30, 35, 40};
-    auto it = find_max_age(ages);
-    ASSERT_NE(it, ages.end());
-    EXPECT_EQ(*it, 40);
+
+TEST(FoundFunctionTest, FindsNutInArray) {
+    constexpr std::array<std::string_view, 4> arr{ "apple", "banana", "walnut", "lemon" };
+    auto it = found(arr);
+    ASSERT_NE(it, arr.end());
+    EXPECT_EQ(*it, "walnut");
 }
 
-TEST(FindMaxAgeTest, EmptyVector) {
-    std::vector<int8_t> no_ages{};
-    auto it = find_max_age(no_ages);
-    EXPECT_EQ(it, no_ages.end());
+TEST(FoundFunctionTest, NoNutInArray) {
+    constexpr std::array<std::string_view, 4> arr{ "apple", "banana", "lemon", "grape" };
+    auto it = found(arr);
+    EXPECT_EQ(it, arr.end());
 }
 
-TEST(FindMaxAgeTest, SingleElementVector) {
-    std::vector<int8_t> ages{42};
-    auto it = find_max_age(ages);
-    ASSERT_NE(it, ages.end());
-    EXPECT_EQ(*it, 42);
+TEST(FoundFunctionTest, NutIsFirstElement) {
+    constexpr std::array<std::string_view, 4> arr{ "nutmeg", "banana", "lemon", "grape" };
+    auto it = found(arr);
+    ASSERT_NE(it, arr.end());
+    EXPECT_EQ(*it, "nutmeg");
 }
 
-TEST(FindMaxAgeTest, AllElementsEqual) {
-    std::vector<int8_t> ages{10, 10, 10};
-    auto it = find_max_age(ages);
-    ASSERT_NE(it, ages.end());
-    EXPECT_EQ(*it, 10);
+TEST(FoundFunctionTest, MultipleNuts) {
+    constexpr std::array<std::string_view, 4> arr{ "nutmeg", "walnut", "banana", "lemon" };
+    auto it = found(arr);
+    ASSERT_NE(it, arr.end());
+    EXPECT_EQ(*it, "nutmeg"); // Should find the first occurrence
 }
+
